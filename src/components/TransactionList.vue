@@ -4,14 +4,16 @@
   <ul id="list" class="list">
     <li
       class="list"
-      v-for="transaction in transactions"
-      :key="transaction.id"
-      :class="transaction.amount < 0 ? 'minus' : 'plus'"
+      v-for="{ id, text, amount } in transactions"
+      :key="id"
+      :class="amount < 0 ? 'minus' : 'plus'"
     >
-      {{ transaction.text }} <span>${{ transaction.amount }}</span>
-      <button @click="deleteTransaction(transaction.id)" class="delete-btn">
-        x
-      </button>
+      {{ text }}
+      <span>
+        {{ amount < 0 ? "-" : "" }}$
+        {{ Math.abs(amount) }}
+      </span>
+      <button @click="deleteTransaction(id)" class="delete-btn">x</button>
     </li>
   </ul>
 </template>

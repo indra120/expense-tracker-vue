@@ -29,9 +29,7 @@ import { useToast } from "vue-toastification"
 
 const text = ref("")
 const amount = ref("")
-
 const emit = defineEmits(["submitTransaction"])
-
 const toast = useToast()
 
 const onSubmit = () => {
@@ -40,6 +38,7 @@ const onSubmit = () => {
   }
 
   emit("submitTransaction", {
+    id: Math.floor(Math.random() * 69420),
     text: text.value,
     amount: parseFloat(amount.value),
   })
