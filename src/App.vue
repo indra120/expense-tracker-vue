@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, ref, onUpdated } from "vue"
 import { useToast } from "vue-toastification"
 
 import Balance from "./components/Balance.vue"
@@ -28,39 +28,35 @@ onMounted(() => {
   transactions.value = JSON.parse(localStorage.getItem("transactions")) || []
 })
 
+onUpdated(() => {
+  localStorage.setItem("transactions", JSON.stringify(transactions.value))
+})
+
 const total = computed(() => {
-  return transactions.value.reduce((acc, transaction) =>  acc + transaction.amount, 0)
+  return transactions.value.reduce((acc, data) => acc + data.amount, 0)
 })
 
 const income = computed(() => {
   return transactions.value
-    .filter((transaction) => transaction.amount > 0)
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
+    .filter((data) => data.amount > 0)
+    .reduce((acc, data) => acc + data.amount, 0)
     .toFixed(2)
 })
 
 const expenses = computed(() => {
   return transactions.value
-    .filter((transaction) => transaction.amount < 0)
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
+    .filter((data) => data.amount < 0)
+    .reduce((acc, data) => acc + data.amount, 0)
     .toFixed(2)
 })
 
 const handleSubmitTransaction = (transaction) => {
   transactions.value.push(transaction)
-  saveToLocalStorage()
   toast.success("New transaction added")
 }
 
 const handleDeleteTransaction = (id) => {
-  transactions.value = transactions.value.filter(
-    (transaction) => transaction.id !== id
-  )
-  saveToLocalStorage()
+  transactions.value = transactions.value.filter((data) => data.id !== id)
   toast.success("Transaction has been deleted")
-}
-
-const saveToLocalStorage = () => {
-  localStorage.setItem("transactions", JSON.stringify(transactions.value))
 }
 </script>
