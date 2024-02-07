@@ -4,10 +4,7 @@
   <div class="container">
     <Balance :total="+total" />
     <IncomeExpenses :income="+income" :expenses="+expenses" />
-    <TransactionList
-      :transactions="transactions"
-      @transaction-deleted="handleDeleteTransaction"
-    />
+    <TransactionList :transactions="transactions" @transaction-deleted="handleDeleteTransaction" />
     <AddTransaction @submit-transaction="handleSubmitTransaction" />
   </div>
 </template>
@@ -15,11 +12,10 @@
 <script setup>
 import { computed, onMounted, ref, onUpdated } from "vue"
 import { useToast } from "vue-toastification"
-
-import Balance from "./components/Balance.vue"
-import IncomeExpenses from "./components/IncomeExpenses.vue"
-import TransactionList from "./components/TransactionList.vue"
-import AddTransaction from "./components/AddTransaction.vue"
+import Balance from "@/components/Balance.vue"
+import IncomeExpenses from "@/components/IncomeExpenses.vue"
+import TransactionList from "@/components/TransactionList.vue"
+import AddTransaction from "@/components/AddTransaction.vue"
 
 const toast = useToast()
 const transactions = ref([])
